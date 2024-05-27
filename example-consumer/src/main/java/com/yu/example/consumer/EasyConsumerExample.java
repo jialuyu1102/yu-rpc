@@ -2,6 +2,7 @@ package com.yu.example.consumer;
 
 import com.yu.example.common.model.User;
 import com.yu.example.common.service.UserService;
+import com.yu.yurpc.proxy.ServiceProxyFactory;
 
 /**
  * 简单服务消费者示例
@@ -9,7 +10,7 @@ import com.yu.example.common.service.UserService;
 public class EasyConsumerExample {
     public static void main(String[] args) {
         //todo 需要获取UserService 的实现对象
-        UserService userService = null;
+        UserService userService = ServiceProxyFactory.getProxy(UserService.class);
         User user = new User();
         user.setName("yu");
         //调用
