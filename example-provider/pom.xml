@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yu</groupId>
-    <artifactId>example-provider</artifactId>
+    <artifactId>yu-rpc-provider</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>com.yu</groupId>
-            <artifactId>yu-rpc-easy</artifactId>
+            <artifactId>yu-rpc-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
