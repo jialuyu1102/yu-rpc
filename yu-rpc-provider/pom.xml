@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yu</groupId>
-    <artifactId>yu-rpc-consumer</artifactId>
+    <artifactId>yu-rpc-provider</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -13,6 +13,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.yu</groupId>
@@ -21,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>com.yu</groupId>
-            <artifactId>example-common</artifactId>
+            <artifactId>yu-rpc-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -36,4 +37,5 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
 </project>
