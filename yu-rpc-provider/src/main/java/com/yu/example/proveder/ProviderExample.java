@@ -10,6 +10,7 @@ import com.yu.yurpc.registry.Registry;
 import com.yu.yurpc.registry.RegistryFactory;
 import com.yu.yurpc.server.HttpServer;
 import com.yu.yurpc.server.VertXHttpServer;
+import com.yu.yurpc.server.tcp.VertxTcpServer;
 
 /**
  * 服务提供者
@@ -40,8 +41,8 @@ public class ProviderExample {
             throw new RuntimeException();
         }
 
-        //启动Web 服务
-        HttpServer httpServer = new VertXHttpServer();
-        httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());
+        //启动Web 服务-TCP服务
+        VertxTcpServer vertxTcpServer = new VertxTcpServer();
+        vertxTcpServer.doStart(8080);
     }
 }

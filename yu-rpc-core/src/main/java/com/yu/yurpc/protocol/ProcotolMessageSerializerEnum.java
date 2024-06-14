@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -56,7 +57,7 @@ public enum ProcotolMessageSerializerEnum {
             return null;
         }
         for (ProcotolMessageSerializerEnum anEnum : ProcotolMessageSerializerEnum.values()) {
-            if (anEnum.value == value){
+            if (Objects.equals(anEnum.value, value)){
                 return anEnum;
             }
         }
