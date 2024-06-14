@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 @Getter
 public enum ProcotolMessageSerializerEnum {
     JDK(0,"jdk"),
-    JSON(0,"json"),
-    KYRO(0,"kyro"),
-    HESSIAN(0,"hessian");
+    JSON(1,"json"),
+    KYRO(2,"kyro"),
+    HESSIAN(3,"hessian");
 
     private final int key;
 
