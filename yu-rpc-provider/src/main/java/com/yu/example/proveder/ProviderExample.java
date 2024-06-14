@@ -31,6 +31,7 @@ public class ProviderExample {
         //注册中心-服务信息
         ServiceMetaInfo serviceMetaInfo = new ServiceMetaInfo();
         serviceMetaInfo.setServiceName(serviceName);
+        serviceMetaInfo.setServiceVersion(rpcConfig.getVersion());
         serviceMetaInfo.setServiceHost(rpcConfig.getServerHost());
         serviceMetaInfo.setServicePort(rpcConfig.getServerPort());
         try {
