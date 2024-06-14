@@ -19,6 +19,7 @@ public class EasyProviderExample {
         String serviceName = UserService.class.getName();
         //注册服务至本地，根据服务名找到对应的实现类
         LocalRegistry.register(serviceName, UserServiceImpl.class);
+
         //启动web服务
         HttpServer httpServer = new VertXHttpServer();
         httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());

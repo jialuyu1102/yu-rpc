@@ -7,8 +7,6 @@ import cn.hutool.json.JSONUtil;
 import com.yu.yurpc.config.RegistryConfig;
 import com.yu.yurpc.model.ServiceMetaInfo;
 import io.etcd.jetcd.*;
-import io.etcd.jetcd.api.Kv;
-import io.etcd.jetcd.kv.GetResponse;
 import io.etcd.jetcd.options.GetOption;
 import io.etcd.jetcd.options.PutOption;
 
@@ -17,8 +15,6 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 /**
@@ -106,6 +102,14 @@ public class EtcdRegistry implements Registry {
     @Override
     public void destroy() {
         System.out.println("当前节点下线");
+        //下线节点
+        for (String key : localRegistryNodeKeySet) {
+            try {
+                kvClient.delete(ByteSequence.from(key,StandardCharsets.UTF_8)).get();
+            } catch (Exception e) {
+                throw new RuntimeException(key + "当前节点下线失败");
+            }
+        }
         // 释放资源
         if (kvClient != null) {
             kvClient.close();
