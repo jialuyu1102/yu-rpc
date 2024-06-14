@@ -1,8 +1,12 @@
 package com.yu.yurpc.model;
 
+import cn.hutool.core.util.StrUtil;
+import lombok.Data;
+
 /**
  * 注册信息
  */
+@Data
 public class ServiceMetaInfo {
     /**
      * 服务名称
@@ -19,7 +23,7 @@ public class ServiceMetaInfo {
     /**
      * 服务端口号
      */
-    private String servicePort;
+    private Integer servicePort;
     /**
      * 服务分组
      */
@@ -41,5 +45,16 @@ public class ServiceMetaInfo {
      */
     public String getServiceNodeKey(){
         return String.format("%s/%s:%s", getServiceKey(), serviceHost, servicePort);
+    }
+
+    /**
+     * 获取服务完整地址
+     * @return
+     */
+    public String getServiceAddress(){
+        if (!StrUtil.contains(serviceHost,"http")){
+            return String.format("http://%s:%s", serviceHost, servicePort);
+        }
+        return String.format("%s:%s", serviceHost, servicePort);
     }
 }
