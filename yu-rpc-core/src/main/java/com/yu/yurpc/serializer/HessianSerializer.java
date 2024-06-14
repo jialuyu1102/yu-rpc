@@ -7,6 +7,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+/**
+ *
+ */
 public class HessianSerializer implements Serializer {
     @Override
     public <T> byte[] serialize(T object) throws IOException {
