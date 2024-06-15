@@ -1,3 +1,1 @@
-roundRobin=com.yu.yurpc.loadbalancer.RoundRobinLoadBalancer
-random=com.yu.yurpc.loadbalancer.RandomLoadBalancer
-CONSISTENT_HASH=com.yu.yurpc.loadbalancer.ConsistentHashLoadBalancer
+etcd=com.yu.yurpc.registry.EtcdRegistry

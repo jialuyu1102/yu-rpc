@@ -1,0 +1,2 @@
+no=com.yu.yurpc.retry.NoRetryStrategy
+fixedInterval=com.yu.yurpc.retry.FixedIntervalRetryStrategy

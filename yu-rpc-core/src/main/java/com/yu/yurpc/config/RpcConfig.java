@@ -2,6 +2,7 @@ package com.yu.yurpc.config;
 
 
 import com.yu.yurpc.loadbalancer.LoadBalancerKeys;
+import com.yu.yurpc.retry.RetryStrategyKeys;
 import com.yu.yurpc.serializer.Serializerkeys;
 import lombok.Data;
 
@@ -50,5 +51,10 @@ public class RpcConfig {
      * 负载均衡器
      */
     private String loadBalancer = LoadBalancerKeys.ROUND_ROBIN;
+
+    /**
+     * 重试策略
+     */
+    private String retryStrategy = RetryStrategyKeys.NO;
 
 }

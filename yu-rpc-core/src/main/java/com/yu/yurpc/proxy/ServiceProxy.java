@@ -15,6 +15,8 @@ import com.yu.yurpc.model.ServiceMetaInfo;
 import com.yu.yurpc.protocol.*;
 import com.yu.yurpc.registry.Registry;
 import com.yu.yurpc.registry.RegistryFactory;
+import com.yu.yurpc.retry.RetryStrategy;
+import com.yu.yurpc.retry.RetryStrategyFactory;
 import com.yu.yurpc.serializer.JdkSerializer;
 import com.yu.yurpc.serializer.Serializer;
 import com.yu.yurpc.serializer.SerializerFactory;
@@ -71,7 +73,10 @@ public class ServiceProxy implements InvocationHandler {
             ServiceMetaInfo selectServiceMetaInfo = loadBalancer.select(requestPatams, serviceMetaInfoList);
 
             // 发送 TCP请求
-            RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectServiceMetaInfo);
+            //失败重试机制
+            // RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectServiceMetaInfo);
+            RetryStrategy retryStrategy = RetryStrategyFactory.getInstance(rpcConfig.getRetryStrategy());
+            RpcResponse rpcResponse = retryStrategy.doRetry(() -> VertxTcpClient.doRequest(rpcRequest, selectServiceMetaInfo));
             return rpcResponse.getData();
         } catch (IOException e) {
             e.printStackTrace();
