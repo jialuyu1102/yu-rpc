@@ -3,6 +3,7 @@ package com.yu.yurpc.server.tcp;
 import com.yu.yurpc.server.HttpServer;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetServer;
 import io.vertx.core.parsetools.RecordParser;
@@ -26,18 +27,31 @@ public class VertxTcpServer implements HttpServer {
         // 处理请求
         // server.connectHandler(new TcpServerHandler());
         server.connectHandler(socket -> {
-            String testMessage = "Hello server! , Hello server! , Hello server! , Hello server! ";
-            int testMessageLength = testMessage.getBytes().length;
-
             // 构造 parser
-            RecordParser parser = RecordParser.newFixed(testMessageLength);
+            RecordParser parser = RecordParser.newFixed(8);
             parser.setOutput(new Handler<Buffer>() {
+                //初始化
+                int size = -1;
+                //一次完整的读取（头+体）
+                Buffer resultBuffer = Buffer.buffer();
+
                 @Override
                 public void handle(Buffer buffer) {
-                    String str = new String(buffer.getBytes());
-                    System.out.println("str = " + str);
-                    if (testMessage.equals(str)) {
-                        System.out.println("good");
+                    if (-1 == size){
+                        //读取消息体长度
+                        size = buffer.getInt(4);
+                        parser.fixedSizeMode(size);
+                        //写入头信息到结果
+                        resultBuffer.appendBuffer(buffer);
+                        System.out.println("size = -1 :"+resultBuffer.toString());
+                    }else {
+                        //写入 消息体信息至结果
+                        resultBuffer.appendBuffer(buffer);
+                        System.err.println("size != -1 :" + resultBuffer.toString());
+                        //重置一轮
+                        parser.fixedSizeMode(8);
+                        size = -1;
+                        resultBuffer = Buffer.buffer();
                     }
                 }
             });

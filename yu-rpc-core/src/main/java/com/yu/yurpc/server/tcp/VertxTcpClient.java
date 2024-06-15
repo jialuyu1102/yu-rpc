@@ -1,6 +1,7 @@
 package com.yu.yurpc.server.tcp;
 
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetSocket;
 
 public class VertxTcpClient {
@@ -12,8 +13,13 @@ public class VertxTcpClient {
                 System.out.println("Connected to TCP server");
                 NetSocket socket = result.result();
                 //发送数据
-                for (int i = 0; i < 1000; i++) {
-                    socket.write("Hello server! , Hello server! , Hello server! , Hello server! ");
+                for (int i = 0; i < 10; i++) {
+                    Buffer buffer = Buffer.buffer();
+                    String str = "Hello server! , Hello server! , Hello server! , Hello server! ";
+                    buffer.appendInt(0);
+                    buffer.appendInt(str.getBytes().length);
+                    buffer.appendBytes(str.getBytes());
+                    socket.write(buffer);
                 }
                 // socket.write("Hello server");
                 //接受响应
