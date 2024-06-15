@@ -47,7 +47,7 @@ public class TcpServerHandler implements Handler<NetSocket> {
             }
             //发送响应，编码
             ProtocolMessage.Header header = protocolMessage.getHeader();
-            header.setType((byte) ProtocolMessageTypeEnum.REQUEST.getKey());
+            header.setType((byte) ProtocolMessageTypeEnum.RESPONSE.getKey());
             ProtocolMessage<RpcResponse> responseProtocolMessage = new ProtocolMessage<>(header, rpcResponse);
             try {
                 Buffer encode = ProtocolMessageEncoder.encode(responseProtocolMessage);
