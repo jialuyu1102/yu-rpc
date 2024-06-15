@@ -22,18 +22,33 @@ public class VertxTcpServer implements HttpServer {
         NetServer server = vertx.createNetServer();
         
         //处理请求
-        server.connectHandler(new TcpServerHandler());
-        // server.connectHandler(socket ->{
-        //     //处理连接
-        //     socket.handler(buffer -> {
-        //         //处理接收到的字节数组
-        //         byte[] requestData = buffer.getBytes();
-        //         //在这里进行自定义的字节数组处理逻辑，比如解析请求，调用服务，构造响应等
-        //         byte[] responseData = handleRequest(requestData);
-        //         //发送响应
-        //         socket.write(Buffer.buffer(responseData));
-        //     });
-        // });
+        // server.connectHandler(new TcpServerHandler());
+        server.connectHandler(socket ->{
+            //处理连接
+            socket.handler(buffer -> {
+                String testMessage = "Hello server! , Hello server! , Hello server! , Hello server! ";
+                int testMessageLength = testMessage.getBytes().length;
+                //处理接收到的字节数组
+                byte[] requestData = buffer.getBytes();
+                if (requestData.length < testMessageLength){
+                    System.out.println("半包，length = " + requestData.length);
+                    return;
+                }
+                if (requestData.length > testMessageLength){
+                    System.out.println("粘包，length = " + requestData.length);
+                    return;
+                }
+                String str = new String(buffer.getBytes(0,testMessageLength));
+                System.out.println("str = "+str);
+                if (testMessage.equals(str)){
+                    System.out.println("good");
+                }
+                //在这里进行自定义的字节数组处理逻辑，比如解析请求，调用服务，构造响应等
+                byte[] responseData = handleRequest(requestData);
+                //发送响应
+                socket.write(Buffer.buffer(responseData));
+            });
+        });
         //启动TCP服务器 并监听指定端口
         server.listen(port,result->{
             if (result.succeeded()){
