@@ -1,0 +1,2 @@
+failFast=com.yu.yurpc.tolerant.FailFastTolerantStrategy
+failSafe=com.yu.yurpc.tolerant.FailSafeTolerantStrategy

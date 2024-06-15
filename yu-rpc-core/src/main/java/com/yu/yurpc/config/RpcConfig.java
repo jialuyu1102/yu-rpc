@@ -4,6 +4,7 @@ package com.yu.yurpc.config;
 import com.yu.yurpc.loadbalancer.LoadBalancerKeys;
 import com.yu.yurpc.retry.RetryStrategyKeys;
 import com.yu.yurpc.serializer.Serializerkeys;
+import com.yu.yurpc.tolerant.TolerantStrategyKeys;
 import lombok.Data;
 
 /**
@@ -56,5 +57,10 @@ public class RpcConfig {
      * 重试策略
      */
     private String retryStrategy = RetryStrategyKeys.NO;
+
+    /**
+     * 容错机制
+     */
+    private String tolerantStrategy = TolerantStrategyKeys.FAIL_FAST;
 
 }

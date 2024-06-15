@@ -21,6 +21,8 @@ import com.yu.yurpc.serializer.JdkSerializer;
 import com.yu.yurpc.serializer.Serializer;
 import com.yu.yurpc.serializer.SerializerFactory;
 import com.yu.yurpc.server.tcp.VertxTcpClient;
+import com.yu.yurpc.tolerant.TolerantStrategy;
+import com.yu.yurpc.tolerant.TolerantStrategyFactory;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetClient;
@@ -75,8 +77,15 @@ public class ServiceProxy implements InvocationHandler {
             // 发送 TCP请求
             //失败重试机制
             // RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectServiceMetaInfo);
-            RetryStrategy retryStrategy = RetryStrategyFactory.getInstance(rpcConfig.getRetryStrategy());
-            RpcResponse rpcResponse = retryStrategy.doRetry(() -> VertxTcpClient.doRequest(rpcRequest, selectServiceMetaInfo));
+            RpcResponse rpcResponse;
+            try {
+                RetryStrategy retryStrategy = RetryStrategyFactory.getInstance(rpcConfig.getRetryStrategy());
+                rpcResponse = retryStrategy.doRetry(() -> VertxTcpClient.doRequest(rpcRequest, selectServiceMetaInfo));
+            }catch (Exception e){
+                TolerantStrategy tolerantStrategy = TolerantStrategyFactory.getInstance(rpcConfig.getTolerantStrategy());
+                rpcResponse = tolerantStrategy.doTolerant(null,e);
+            }
+
             return rpcResponse.getData();
         } catch (IOException e) {
             e.printStackTrace();
